@@ -1,6 +1,6 @@
 {
-    "name": "webfiori/task-manager-example",
-    "description": "Example that",
+    "name": "webfiori/app",
+    "description": "The default application template for WebFiori Framework.",
     "authors": [],
     "type": "project",
     "require": {
