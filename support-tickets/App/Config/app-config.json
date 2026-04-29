@@ -1,0 +1,49 @@
+{
+    "base-url":"DYNAMIC",
+    "theme":null,
+    "home-page":"BASE_URL",
+    "primary-lang":"EN",
+    "titles":{
+        "AR":"نظام التذاكر",
+        "EN":"Support Tickets"
+    },
+    "name-separator":"|",
+    "scheduler-password":"NO_PASSWORD",
+    "app-names":{
+        "AR":"نظام دعم التذاكر",
+        "EN":"Support Ticket System"
+    },
+    "app-descriptions":{
+        "AR":"",
+        "EN":"A support ticket system built with WebFiori Framework"
+    },
+    "version-info":{
+        "version":"1.0.0",
+        "version-type":"Stable",
+        "release-date":"2026-04-28"
+    },
+    "env-vars":{
+        "WF_VERBOSE":{
+            "value":true,
+            "description":"Configure the verbosity of error messages at run-time."
+        },
+        "CLI_HTTP_HOST":{
+            "value":"127.0.0.1",
+            "description":"Host name that will be used when running the application as command line utility."
+        }
+    },
+    "smtp-connections":{
+    },
+    "database-connections":{
+        "tickets":{
+            "type":"mysql",
+            "host":"127.0.0.1",
+            "port":3307,
+            "username":"root",
+            "database":"tickets_test",
+            "password":"Testing@123456",
+            "extras":{
+            }
+        }
+    }
+}
