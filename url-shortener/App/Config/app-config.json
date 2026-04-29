@@ -1,0 +1,40 @@
+{
+    "base-url":"DYNAMIC",
+    "theme":null,
+    "home-page":"BASE_URL",
+    "primary-lang":"EN",
+    "titles":{
+        "AR":"مختصر الروابط",
+        "EN":"URL Shortener"
+    },
+    "name-separator":"|",
+    "scheduler-password":"NO_PASSWORD",
+    "app-names":{
+        "AR":"مختصر الروابط",
+        "EN":"URL Shortener"
+    },
+    "app-descriptions":{
+        "AR":"",
+        "EN":"A URL shortener service built with WebFiori Framework"
+    },
+    "version-info":{
+        "version":"1.0.0",
+        "version-type":"Stable",
+        "release-date":"2026-04-29"
+    },
+    "env-vars":{
+        "WF_VERBOSE":{
+            "value":true,
+            "description":"Configure the verbosity of error messages at run-time."
+        },
+        "CLI_HTTP_HOST":{
+            "value":"127.0.0.1",
+            "description":"Host name that will be used when running the application as command line utility."
+        }
+    },
+    "smtp-connections":{
+    },
+    "database-connections":{
+        }
+    }
+}
