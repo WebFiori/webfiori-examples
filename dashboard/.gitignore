@@ -1,0 +1,13 @@
+/vendor/
+composer.lock
+/App/Storage/Sessions/*
+/App/Storage/Logs/*
+/App/Storage/Uploads/*
+/App/Storage/reports/*
+/App/Storage/class-loader.cache
+!/App/Storage/Sessions/.gitkeep
+!/App/Storage/Logs/.gitkeep
+!/App/Storage/Uploads/.gitkeep
+/tests/.phpunit.cache/
+/tests/.phpunit.result.cache
+.php-cs-fixer.cache

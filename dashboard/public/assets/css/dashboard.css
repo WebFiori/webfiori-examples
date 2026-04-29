@@ -1,0 +1,26 @@
+nav#page-header {
+    background: #2c3e50;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+}
+nav#page-header a {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+nav#page-header a:hover {
+    background: rgba(255,255,255,0.15);
+}
+footer#page-footer {
+    text-align: center;
+    padding: 1rem;
+    color: #7f8c8d;
+    margin-top: 2rem;
+}
+footer#page-footer a {
+    margin: 0 0.3rem;
+}

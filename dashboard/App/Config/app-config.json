@@ -1,0 +1,40 @@
+{
+    "base-url":"DYNAMIC",
+    "theme":null,
+    "home-page":"BASE_URL",
+    "primary-lang":"EN",
+    "titles":{
+        "AR":"لوحة التحكم",
+        "EN":"Dashboard"
+    },
+    "name-separator":"|",
+    "scheduler-password":"NO_PASSWORD",
+    "app-names":{
+        "AR":"لوحة التحكم",
+        "EN":"Multi-Tenant Dashboard"
+    },
+    "app-descriptions":{
+        "AR":"",
+        "EN":"Admin dashboard with role-based access control"
+    },
+    "version-info":{
+        "version":"1.0.0",
+        "version-type":"Stable",
+        "release-date":"2026-04-29"
+    },
+    "env-vars":{
+        "WF_VERBOSE":{
+            "value":true,
+            "description":"Configure the verbosity of error messages."
+        },
+        "CLI_HTTP_HOST":{
+            "value":"127.0.0.1",
+            "description":"Host name for CLI."
+        }
+    },
+    "smtp-connections":{
+    },
+    "database-connections":{
+        }
+    }
+}
