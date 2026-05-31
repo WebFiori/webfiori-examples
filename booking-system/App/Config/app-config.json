@@ -1,0 +1,47 @@
+{
+    "base-url":"DYNAMIC",
+    "theme":null,
+    "home-page":"BASE_URL",
+    "primary-lang":"EN",
+    "titles":{
+        "AR":"نظام الحجوزات",
+        "EN":"Booking System"
+    },
+    "name-separator":"|",
+    "scheduler-password":"NO_PASSWORD",
+    "app-names":{
+        "AR":"نظام حجز المواعيد",
+        "EN":"Appointment Booking System"
+    },
+    "app-descriptions":{
+        "AR":"نظام لحجز وإدارة المواعيد",
+        "EN":"An appointment booking system demonstrating enterprise framework features"
+    },
+    "version-info":{
+        "version":"1.0.0",
+        "version-type":"Stable",
+        "release-date":"2026-05-31"
+    },
+    "env-vars":{
+        "WF_VERBOSE":{
+            "value":true,
+            "description":"Configure the verbosity of error messages at run-time."
+        },
+        "CLI_HTTP_HOST":{
+            "value":"127.0.0.1",
+            "description":"Host name that will be used when running the application as command line utility."
+        },
+        "SESSION_KEY":{
+            "value":"env:SESSION_ENCRYPTION_KEY",
+            "description":"AES-256-GCM key for session encryption at rest."
+        },
+        "SMS_API_KEY":{
+            "value":"env:SMS_API_KEY",
+            "description":"API key for SMS notification provider."
+        }
+    },
+    "smtp-connections":{
+    },
+    "database-connections":{
+    }
+}
