@@ -46,6 +46,7 @@ tests/
 
 ```bash
 composer install
+composer update
 ```
 
 ### 2. Add Database Connection

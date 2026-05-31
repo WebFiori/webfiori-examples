@@ -94,6 +94,7 @@ Each example follows the same setup pattern:
 ```bash
 cd <example-folder>
 composer install
+composer update
 php webfiori add:db-connection    # Follow prompts, use the connection name from the example's README
 php webfiori migrations:ini --connection=<name>
 php webfiori migrations:run --connection=<name> --env=dev
