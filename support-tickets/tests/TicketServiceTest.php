@@ -18,7 +18,7 @@ class TicketServiceTest extends APITestCase {
         ]);
         $response = json_decode($output, true);
         $this->assertArrayHasKey('data', $response);
-        $this->assertEquals('Test ticket', $response['data'][0]['subject']);
+        $this->assertEquals('Test ticket', $response['data']['ticket']['subject']);
     }
 
     public function testCreateTicketMissingEmail() {
