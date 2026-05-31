@@ -37,6 +37,7 @@ App/
         └── APIsRoutes.php           # API route definitions
 tests/
 ├── TaskServiceTest.php              # APITestCase tests
+├── RateLimitTest.php                # Integration test for rate limiting (spins up real server)
 ├── bootstrap.php                    # Test bootstrap
 └── phpunit.xml                      # PHPUnit configuration
 ```
@@ -182,6 +183,6 @@ composer test
 | Rate Limiting | Framework's `RateLimitMiddleware` applied to all API routes (60 req/min per IP) |
 | Pagination | `AbstractRepository::paginate()` with `page` and `per-page` query params |
 | Env Config (JSON) | `app-config.json` with MSSQL connection |
-| API Testing | `APITestCase` for all endpoints including validation and pagination |
+| API Testing | `APITestCase` for all endpoints including validation and pagination; integration test for rate limiting |
 | Routing | API routes registered in `APIsRoutes.php` |
 | JSON Handling | All responses are JSON via `#[ResponseBody]` |
