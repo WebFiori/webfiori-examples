@@ -7,7 +7,7 @@ This example demonstrates the foundational patterns of WebFiori: web services wi
 ## Tech Stack
 
 - **PHP 8.1+** with the `sqlsrv` extension
-- **WebFiori Framework v3.0.0-RC0**
+- **WebFiori Framework v3.0.0-RC.5**
 - **MSSQL** (Microsoft SQL Server) database
 
 ## Project Structure
@@ -18,15 +18,16 @@ App/
 │   ├── TaskService.php              # REST controller (annotations-based)
 │   └── TaskServicesManager.php      # Services manager
 ├── Domain/
-│   └── Task.php                     # Entity
+│   └── Task.php                     # Entity with validation constants
 ├── Infrastructure/
 │   ├── Repository/
-│   │   └── TaskRepository.php       # Data access
+│   │   └── TaskRepository.php       # Data access (uses AbstractRepository pagination)
 │   └── Schema/
 │       └── TasksTable.php           # Table definition (PHP 8 attributes)
 ├── Database/
 │   ├── Migrations/
-│   │   └── CreateTasksTable.php     # Creates the tasks table
+│   │   ├── CreateTasksTable.php     # Creates the tasks table
+│   │   └── AddPriorityAndDueDate.php # Adds priority and due_date columns
 │   └── Seeders/
 │       └── SeedSampleTasks.php      # Seeds sample task data
 ├── Config/
@@ -103,10 +104,11 @@ All endpoints are accessed via `/apis/tasks`. The service name `tasks` is passed
 
 | Method | URL | Parameters | Description |
 |--------|-----|------------|-------------|
-| `GET` | `/apis/tasks` | `status` (optional): `pending` or `completed` | List all tasks, optionally filtered by status |
+| `GET` | `/apis/tasks` | `status` (optional): `pending`, `in-progress`, or `completed` | List all tasks, optionally filtered by status |
 | `GET` | `/apis/tasks` | `id` (required): integer | Get a single task by ID |
-| `POST` | `/apis/tasks` | `title` (required), `description` (optional) | Create a new task |
-| `PUT` | `/apis/tasks` | `id` (required), `title`, `description`, `status` (all optional) | Update a task |
+| `GET` | `/apis/tasks` | `page` (required): integer, `per-page` (optional, default: 10, max: 100) | Get paginated tasks |
+| `POST` | `/apis/tasks` | `title` (required), `description` (optional), `priority` (optional: `low`, `medium`, `high`), `due-date` (optional, must be future) | Create a new task |
+| `PUT` | `/apis/tasks` | `id` (required), `title`, `description`, `status`, `priority`, `due-date` (all optional) | Update a task |
 | `DELETE` | `/apis/tasks` | `id` (required) | Delete a task |
 
 ### Examples
@@ -131,6 +133,19 @@ curl "http://localhost:8080/apis/tasks?id=1"
 curl -X POST http://localhost:8080/apis/tasks \
   -d "title=Buy groceries" \
   -d "description=Milk, eggs, bread"
+```
+
+**Create a task with priority and due date:**
+```bash
+curl -X POST http://localhost:8080/apis/tasks \
+  -d "title=Finish report" \
+  -d "priority=high" \
+  -d "due-date=2026-12-31 17:00:00"
+```
+
+**Get paginated tasks:**
+```bash
+curl "http://localhost:8080/apis/tasks?page=1&per-page=5"
 ```
 
 **Update a task:**
@@ -158,13 +173,15 @@ composer test
 | Feature | How It Is Used |
 |---------|---------------|
 | Web Services (attributes) | `#[RestController]`, `#[GetMapping]`, `#[PostMapping]`, `#[PutMapping]`, `#[DeleteMapping]`, `#[RequestParam]`, `#[ResponseBody]`, `#[AllowAnonymous]` |
-| Database + Repository | `AbstractRepository` for CRUD on tasks table |
-| Domain Entities | Plain PHP class `Task` with constructor promotion |
-| Migrations | `CreateTasksTable` migration creates the table |
+| Database + Repository | `AbstractRepository` for CRUD on tasks table, built-in `paginate()` for offset-based pagination |
+| Domain Entities | Plain PHP class `Task` with constructor promotion and validation constants |
+| Migrations | `CreateTasksTable` creates the table; `AddPriorityAndDueDate` safely adds columns with existence checks |
 | Seeders | `SeedSampleTasks` populates sample data in dev/test |
-| Input Validation | Required/optional params with type validation |
-| Error Handling | `NotFoundException` for missing resources |
+| Input Validation | Required/optional params with type validation; enum validation for `status` and `priority`; future-date validation for `due-date` |
+| Error Handling | `NotFoundException` for missing resources; `BadRequestException` for validation failures |
+| Rate Limiting | Framework's `RateLimitMiddleware` applied to all API routes (60 req/min per IP) |
+| Pagination | `AbstractRepository::paginate()` with `page` and `per-page` query params |
 | Env Config (JSON) | `app-config.json` with MSSQL connection |
-| API Testing | `APITestCase` for all endpoints |
+| API Testing | `APITestCase` for all endpoints including validation and pagination |
 | Routing | API routes registered in `APIsRoutes.php` |
 | JSON Handling | All responses are JSON via `#[ResponseBody]` |

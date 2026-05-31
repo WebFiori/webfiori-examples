@@ -200,4 +200,105 @@ class TaskServiceTest extends APITestCase {
         $this->assertStringContainsString('id', $response['message']);
         $this->assertContains('id', $response['more-info']['missing']);
     }
+
+    /**
+     * Verifies that POST with an invalid status returns a 400 error.
+     */
+    public function testCreateTaskInvalidPriority() {
+        $output = $this->postRequest($this->createManager(), 'tasks', [
+            'title' => 'Bad Priority Task',
+            'priority' => 'urgent'
+        ]);
+        $response = json_decode($output, true);
+        $this->assertIsArray($response);
+        $this->assertEquals('error', $response['type']);
+        $this->assertStringContainsString('priority', strtolower($response['message']));
+    }
+
+    /**
+     * Verifies that PUT with an invalid status returns a 400 error.
+     */
+    public function testUpdateTaskInvalidStatus() {
+        $output = $this->putRequest($this->createManager(), 'tasks', [
+            'id' => 1,
+            'status' => 'invalid-status'
+        ]);
+        $response = json_decode($output, true);
+        $this->assertIsArray($response);
+        $this->assertEquals('error', $response['type']);
+        $this->assertStringContainsString('status', strtolower($response['message']));
+    }
+
+    /**
+     * Verifies that POST with a past due date returns a 400 error.
+     */
+    public function testCreateTaskPastDueDate() {
+        $output = $this->postRequest($this->createManager(), 'tasks', [
+            'title' => 'Past Due Task',
+            'due-date' => '2020-01-01 00:00:00'
+        ]);
+        $response = json_decode($output, true);
+        $this->assertIsArray($response);
+        $this->assertEquals('error', $response['type']);
+        $this->assertStringContainsString('due date', strtolower($response['message']));
+    }
+
+    /**
+     * Verifies that POST with a valid priority and due date creates the task.
+     */
+    public function testCreateTaskWithPriorityAndDueDate() {
+        $futureDate = date('Y-m-d H:i:s', strtotime('+30 days'));
+        $output = $this->postRequest($this->createManager(), 'tasks', [
+            'title' => 'High Priority Task',
+            'priority' => 'high',
+            'due-date' => $futureDate
+        ]);
+        $response = json_decode($output, true);
+        $this->assertIsArray($response);
+        $this->assertArrayHasKey('data', $response);
+        $this->assertEquals('High Priority Task', $response['data'][0]['title']);
+        $this->assertEquals('high', $response['data'][0]['priority']);
+        $this->assertStringStartsWith(
+            date('Y-m-d H:i:s', strtotime('+30 days')),
+            $response['data'][0]['dueDate']
+        );
+    }
+
+    /**
+     * Verifies that GET with pagination returns paginated results with metadata.
+     */
+    public function testGetTasksPaginated() {
+        $output = $this->getRequest($this->createManager(), 'tasks', [
+            'page' => 1,
+            'per-page' => 2
+        ]);
+        $response = json_decode($output, true);
+        $this->assertIsArray($response);
+        $this->assertArrayHasKey('data', $response);
+        $data = $response['data'];
+        $this->assertArrayHasKey('items', $data);
+        $this->assertArrayHasKey('page', $data);
+        $this->assertArrayHasKey('perPage', $data);
+        $this->assertArrayHasKey('total', $data);
+        $this->assertArrayHasKey('totalPages', $data);
+        $this->assertEquals(1, $data['page']);
+        $this->assertEquals(2, $data['perPage']);
+        $this->assertCount(2, $data['items']);
+    }
+
+    /**
+     * Verifies that GET with page 2 returns different results.
+     */
+    public function testGetTasksPaginatedPage2() {
+        $output = $this->getRequest($this->createManager(), 'tasks', [
+            'page' => 2,
+            'per-page' => 2
+        ]);
+        $response = json_decode($output, true);
+        $this->assertIsArray($response);
+        $this->assertArrayHasKey('data', $response);
+        $data = $response['data'];
+        $this->assertEquals(2, $data['page']);
+        $this->assertNotEmpty($data['items']);
+    }
 }

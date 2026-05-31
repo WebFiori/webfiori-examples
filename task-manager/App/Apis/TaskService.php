@@ -13,6 +13,7 @@ use WebFiori\Http\Annotations\PutMapping;
 use WebFiori\Http\Annotations\RequestParam;
 use WebFiori\Http\Annotations\ResponseBody;
 use WebFiori\Http\Annotations\RestController;
+use WebFiori\Http\Exceptions\BadRequestException;
 use WebFiori\Http\Exceptions\NotFoundException;
 use WebFiori\Http\ParamType;
 use WebFiori\Http\WebService;
@@ -30,13 +31,14 @@ use WebFiori\Http\WebService;
 class TaskService extends WebService {
 
     /**
-     * Retrieves tasks.
+     * Retrieves tasks with optional filtering and pagination.
      *
      * - If `id` is provided, returns a single task or throws 404.
+     * - If `page` is provided, returns paginated results.
      * - If `status` is provided, returns tasks filtered by that status.
      * - Otherwise, returns all tasks.
      *
-     * @return Task[] Array of Task entities serialized to JSON by the framework.
+     * @return array Response data (tasks or paginated result).
      *
      * @throws NotFoundException If a specific task ID is requested but does not exist.
      */
@@ -44,7 +46,9 @@ class TaskService extends WebService {
     #[ResponseBody]
     #[AllowAnonymous]
     #[RequestParam(name: 'id', type: ParamType::INT, optional: true, description: 'Task ID')]
-    #[RequestParam(name: 'status', type: ParamType::STRING, optional: true, description: 'Filter by status (pending or completed)')]
+    #[RequestParam(name: 'status', type: ParamType::STRING, optional: true, description: 'Filter by status (pending, in-progress, or completed)')]
+    #[RequestParam(name: 'page', type: ParamType::INT, optional: true, description: 'Page number (1-based) for pagination')]
+    #[RequestParam(name: 'per-page', type: ParamType::INT, optional: true, description: 'Items per page (default: 10, max: 100)')]
     public function getTasks(): array {
         $repo = $this->getRepo();
         $id = $this->getParamVal('id');
@@ -60,6 +64,20 @@ class TaskService extends WebService {
         }
 
         $status = $this->getParamVal('status');
+        $page = $this->getParamVal('page');
+
+        if ($page !== null) {
+            $perPage = min($this->getParamVal('per-page') ?? 10, 100);
+            $result = $repo->paginate($page, $perPage, ['id' => 'a']);
+
+            return [
+                'items' => $result->getItems(),
+                'page' => $result->getCurrentPage(),
+                'perPage' => $result->getPerPage(),
+                'total' => $result->getTotalItems(),
+                'totalPages' => $result->getTotalPages(),
+            ];
+        }
 
         if ($status !== null) {
             return $repo->findByStatus($status);
@@ -69,10 +87,10 @@ class TaskService extends WebService {
     }
 
     /**
-     * Creates a new task.
+     * Creates a new task with validation.
      *
-     * Inserts the task into the database, then queries it back to include
-     * the auto-generated ID in the response.
+     * Validates that `status` is one of the allowed values and that
+     * `dueDate` (if provided) is in the future.
      *
      * @return Task[] Single-element array containing the created task.
      */
@@ -81,10 +99,20 @@ class TaskService extends WebService {
     #[AllowAnonymous]
     #[RequestParam(name: 'title', type: ParamType::STRING, description: 'Task title')]
     #[RequestParam(name: 'description', type: ParamType::STRING, optional: true, default: '', description: 'Task description')]
+    #[RequestParam(name: 'priority', type: ParamType::STRING, optional: true, default: 'medium', description: 'Priority: low, medium, or high')]
+    #[RequestParam(name: 'due-date', type: ParamType::STRING, optional: true, description: 'Due date (Y-m-d H:i:s format, must be in the future)')]
     public function createTask(): array {
+        $priority = $this->getParamVal('priority') ?? 'medium';
+        $this->validatePriority($priority);
+
+        $dueDate = $this->getParamVal('due-date');
+        $this->validateDueDate($dueDate);
+
         $task = new Task(
             title: $this->getParamVal('title'),
             description: $this->getParamVal('description') ?? '',
+            priority: $priority,
+            dueDate: $dueDate,
             createdAt: date('Y-m-d H:i:s')
         );
 
@@ -97,7 +125,7 @@ class TaskService extends WebService {
     }
 
     /**
-     * Updates an existing task.
+     * Updates an existing task with validation.
      *
      * Only the fields that are provided in the request are updated;
      * omitted fields retain their current values. The `updated_at`
@@ -113,7 +141,9 @@ class TaskService extends WebService {
     #[RequestParam(name: 'id', type: ParamType::INT, description: 'Task ID')]
     #[RequestParam(name: 'title', type: ParamType::STRING, optional: true, description: 'New title')]
     #[RequestParam(name: 'description', type: ParamType::STRING, optional: true, description: 'New description')]
-    #[RequestParam(name: 'status', type: ParamType::STRING, optional: true, description: 'New status (pending or completed)')]
+    #[RequestParam(name: 'status', type: ParamType::STRING, optional: true, description: 'New status: pending, in-progress, or completed')]
+    #[RequestParam(name: 'priority', type: ParamType::STRING, optional: true, description: 'New priority: low, medium, or high')]
+    #[RequestParam(name: 'due-date', type: ParamType::STRING, optional: true, description: 'New due date (Y-m-d H:i:s format)')]
     public function updateTask(): array {
         $repo = $this->getRepo();
         $id = $this->getParamVal('id');
@@ -126,6 +156,23 @@ class TaskService extends WebService {
         $title = $this->getParamVal('title');
         $description = $this->getParamVal('description');
         $status = $this->getParamVal('status');
+        $priority = $this->getParamVal('priority');
+        $dueDate = $this->getParamVal('due-date');
+
+        if ($status !== null) {
+            $this->validateStatus($status);
+            $task->status = $status;
+        }
+
+        if ($priority !== null) {
+            $this->validatePriority($priority);
+            $task->priority = $priority;
+        }
+
+        if ($dueDate !== null) {
+            $this->validateDueDate($dueDate);
+            $task->dueDate = $dueDate;
+        }
 
         if ($title !== null) {
             $task->title = $title;
@@ -133,10 +180,6 @@ class TaskService extends WebService {
 
         if ($description !== null) {
             $task->description = $description;
-        }
-
-        if ($status !== null) {
-            $task->status = $status;
         }
 
         $task->updatedAt = date('Y-m-d H:i:s');
@@ -171,6 +214,47 @@ class TaskService extends WebService {
         $repo->deleteById($id);
 
         return [$task];
+    }
+
+    /**
+     * Validates that the status value is one of the allowed values.
+     */
+    private function validateStatus(string $status): void {
+        if (!in_array($status, Task::VALID_STATUSES, true)) {
+            throw new BadRequestException(
+                'Invalid status. Allowed values: ' . implode(', ', Task::VALID_STATUSES) . '.'
+            );
+        }
+    }
+
+    /**
+     * Validates that the priority value is one of the allowed values.
+     */
+    private function validatePriority(string $priority): void {
+        if (!in_array($priority, Task::VALID_PRIORITIES, true)) {
+            throw new BadRequestException(
+                'Invalid priority. Allowed values: ' . implode(', ', Task::VALID_PRIORITIES) . '.'
+            );
+        }
+    }
+
+    /**
+     * Validates that the due date is a valid datetime string in the future.
+     */
+    private function validateDueDate(?string $dueDate): void {
+        if ($dueDate === null) {
+            return;
+        }
+
+        $timestamp = strtotime($dueDate);
+
+        if ($timestamp === false) {
+            throw new BadRequestException('Invalid due date format. Use Y-m-d H:i:s.');
+        }
+
+        if ($timestamp <= time()) {
+            throw new BadRequestException('Due date must be in the future.');
+        }
     }
 
     /**
