@@ -122,6 +122,24 @@ class PostRepository extends AbstractRepository {
         ];
     }
 
+    /**
+     * Finds published posts created since the given date.
+     *
+     * @return Post[]
+     */
+    public function findPublishedSince(string $since): array {
+        $sql = "SELECT p.*, a.name AS author_name, c.name AS category_name "
+             . "FROM posts p "
+             . "LEFT JOIN authors a ON p.author_id = a.id "
+             . "LEFT JOIN categories c ON p.category_id = c.id "
+             . "WHERE p.status = 'published' AND p.created_at >= ? "
+             . "ORDER BY p.created_at DESC";
+
+        $result = $this->getDatabase()->raw($sql, [$since])->execute();
+
+        return array_map(fn($row) => $this->toEntity($row), $result->fetchAll());
+    }
+
     protected function getIdField(): string {
         return 'id';
     }
