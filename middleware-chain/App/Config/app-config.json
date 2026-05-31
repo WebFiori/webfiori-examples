@@ -1,0 +1,18 @@
+{
+    "base-url":"DYNAMIC",
+    "theme":null,
+    "home-page":"BASE_URL",
+    "primary-lang":"EN",
+    "titles":{"EN":"Middleware Chain"},
+    "name-separator":"|",
+    "scheduler-password":"NO_PASSWORD",
+    "app-names":{"EN":"Middleware Chain Demo"},
+    "app-descriptions":{"EN":"Demonstrates middleware dependency resolution"},
+    "version-info":{"version":"1.0.0","version-type":"Stable","release-date":"2026-05-31"},
+    "env-vars":{
+        "WF_VERBOSE":{"value":true,"description":"Verbose errors."},
+        "CLI_HTTP_HOST":{"value":"127.0.0.1","description":"CLI host."}
+    },
+    "smtp-connections":{},
+    "database-connections":{}
+}
