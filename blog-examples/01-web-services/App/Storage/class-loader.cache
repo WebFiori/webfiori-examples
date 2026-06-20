@@ -6,8 +6,8 @@
 /App/Ini/Privileges.php=>App\Ini\Privileges
 /App/Ini/Middleware.php=>App\Ini\Middleware
 /App/Ini/Routes/APIsRoutes.php=>App\Ini\Routes\APIsRoutes
+/App/Apis/OpenAPIService.php=>App\Apis\OpenAPIService
 /App/Apis/ProductService.php=>App\Apis\ProductService
-/App/Apis/ProductServicesManager.php=>App\Apis\ProductServicesManager
 /App/Apis/UserService.php=>App\Apis\UserService
 /App/Ini/Routes/PagesRoutes.php=>App\Ini\Routes\PagesRoutes
 /App/Ini/Routes/ClosureRoutes.php=>App\Ini\Routes\ClosureRoutes

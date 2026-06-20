@@ -11,6 +11,7 @@ This example accompanies the blog post on building REST APIs using WebFiori v3's
 - `#[Validate]` for cross-field validation
 - `#[ResponseBody]` for JSON serialization
 - `ServiceRouter::discover()` for auto-registration
+- `OpenAPIGenerator` for generating OpenAPI 3.1 specs from annotations
 - `ServiceTestCase` for testing services directly without HTTP server or manager
 
 ## Project Structure
@@ -19,7 +20,8 @@ This example accompanies the blog post on building REST APIs using WebFiori v3's
 App/
 ├── Apis/
 │   ├── ProductService.php          ← CRUD API with annotations
-│   └── UserService.php             ← Registration with cross-field validation
+│   ├── UserService.php             ← Registration with cross-field validation
+│   └── OpenAPIService.php          ← Serves generated OpenAPI 3.1 spec
 ├── Domain/
 │   └── Product.php                 ← Plain entity class
 ├── Config/
@@ -65,6 +67,9 @@ curl -X POST http://localhost:8080/apis/users \
 curl -X POST http://localhost:8080/apis/users \
   -H "Content-Type: application/json" \
   -d '{"name":"John","email":"john@example.com","password":"short","password_confirm":"different"}'
+
+# Get OpenAPI spec
+curl http://localhost:8080/apis/openapi
 ```
 
 ## Run Tests
