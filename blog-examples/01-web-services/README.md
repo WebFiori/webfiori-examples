@@ -11,7 +11,7 @@ This example accompanies the blog post on building REST APIs using WebFiori v3's
 - `#[Validate]` for cross-field validation
 - `#[ResponseBody]` for JSON serialization
 - `ServiceRouter::discover()` for auto-registration
-- `APITestCase` for testing without an HTTP server
+- `ServiceTestCase` for testing services directly without HTTP server or manager
 
 ## Project Structure
 
@@ -19,8 +19,7 @@ This example accompanies the blog post on building REST APIs using WebFiori v3's
 App/
 ├── Apis/
 │   ├── ProductService.php          ← CRUD API with annotations
-│   ├── UserService.php             ← Registration with cross-field validation
-│   └── ProductServicesManager.php  ← Manager for testing
+│   └── UserService.php             ← Registration with cross-field validation
 ├── Domain/
 │   └── Product.php                 ← Plain entity class
 ├── Config/
