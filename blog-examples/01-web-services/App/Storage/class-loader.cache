@@ -1,0 +1,16 @@
+/vendor/webfiori/framework/WebFiori/Framework/Autoload=>WebFiori\Framework\Autoload\ClassLoader
+/vendor/webfiori/framework/WebFiori/Framework/Autoload=>WebFiori\Framework\Autoload\ClassInfo
+/vendor/webfiori/framework/WebFiori/Framework/Autoload=>WebFiori\Framework\Autoload\ClassLoaderException
+/App/Ini/AutoLoad.php=>App\Ini\AutoLoad
+/App/Ini/Commands.php=>App\Ini\Commands
+/App/Ini/Privileges.php=>App\Ini\Privileges
+/App/Ini/Middleware.php=>App\Ini\Middleware
+/App/Ini/Routes/APIsRoutes.php=>App\Ini\Routes\APIsRoutes
+/App/Apis/ProductService.php=>App\Apis\ProductService
+/App/Apis/ProductServicesManager.php=>App\Apis\ProductServicesManager
+/App/Apis/UserService.php=>App\Apis\UserService
+/App/Ini/Routes/PagesRoutes.php=>App\Ini\Routes\PagesRoutes
+/App/Ini/Routes/ClosureRoutes.php=>App\Ini\Routes\ClosureRoutes
+/App/Ini/Routes/OtherRoutes.php=>App\Ini\Routes\OtherRoutes
+/App/Ini/Tasks.php=>App\Ini\Tasks
+/App/Domain/Product.php=>App\Domain\Product
