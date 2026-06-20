@@ -10,6 +10,7 @@
 /App/Apis/ProductService.php=>App\Apis\ProductService
 /App/Apis/UserService.php=>App\Apis\UserService
 /App/Ini/Routes/PagesRoutes.php=>App\Ini\Routes\PagesRoutes
+/App/Pages/SwaggerPage.php=>App\Pages\SwaggerPage
 /App/Ini/Routes/ClosureRoutes.php=>App\Ini\Routes\ClosureRoutes
 /App/Ini/Routes/OtherRoutes.php=>App\Ini\Routes\OtherRoutes
 /App/Ini/Tasks.php=>App\Ini\Tasks

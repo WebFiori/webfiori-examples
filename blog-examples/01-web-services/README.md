@@ -71,8 +71,8 @@ curl -X POST http://localhost:8080/apis/users \
 # Get OpenAPI spec
 curl http://localhost:8080/apis/openapi
 
-# View Swagger UI
-# Open http://localhost:8080/swagger.html in your browser
+# View Swagger UI docs
+# Open http://localhost:8080/docs in your browser
 ```
 
 ## Run Tests
