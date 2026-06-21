@@ -1,0 +1,47 @@
+{
+    "base-url":"DYNAMIC",
+    "theme":null,
+    "home-page":"BASE_URL",
+    "primary-lang":"EN",
+    "titles":{
+        "AR":"نظام الفوترة",
+        "EN":"Billing System"
+    },
+    "name-separator":"|",
+    "scheduler-password":"NO_PASSWORD",
+    "app-names":{
+        "AR":"منصة الفوترة",
+        "EN":"Multi-Tenant Billing Platform"
+    },
+    "app-descriptions":{
+        "AR":"منصة فوترة متعددة المستأجرين",
+        "EN":"A multi-tenant SaaS billing platform"
+    },
+    "version-info":{
+        "version":"1.0.0",
+        "version-type":"Stable",
+        "release-date":"2026-05-31"
+    },
+    "env-vars":{
+        "WF_VERBOSE":{
+            "value":true,
+            "description":"Configure the verbosity of error messages."
+        },
+        "CLI_HTTP_HOST":{
+            "value":"127.0.0.1",
+            "description":"Host name for CLI."
+        },
+        "SESSION_KEY":{
+            "value":"env:SESSION_ENCRYPTION_KEY",
+            "description":"AES-256-GCM key for session encryption."
+        },
+        "BILLING_API_KEY":{
+            "value":"env:BILLING_API_KEY",
+            "description":"API key for billing provider."
+        }
+    },
+    "smtp-connections":{
+    },
+    "database-connections":{
+    }
+}

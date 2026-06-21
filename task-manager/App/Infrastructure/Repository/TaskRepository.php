@@ -39,6 +39,8 @@ class TaskRepository extends AbstractRepository {
             title: $row['title'],
             description: $row['description'] ?? '',
             status: $row['status'] ?? 'pending',
+            priority: $row['priority'] ?? 'medium',
+            dueDate: $row['due_date'] ?? null,
             createdAt: $row['created_at'] ?? null,
             updatedAt: $row['updated_at'] ?? null
         );
@@ -60,6 +62,8 @@ class TaskRepository extends AbstractRepository {
             'title' => $entity->title,
             'description' => $entity->description,
             'status' => $entity->status,
+            'priority' => $entity->priority,
+            'due-date' => $entity->dueDate,
             'created-at' => $entity->createdAt ?? date('Y-m-d H:i:s'),
             'updated-at' => $entity->updatedAt
         ];

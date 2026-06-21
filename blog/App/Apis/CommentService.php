@@ -17,11 +17,13 @@ use WebFiori\Http\WebService;
 
 /**
  * REST controller for adding comments to posts.
+ *
+ * Sends a notification email to the post author when a new comment is added.
  */
 #[RestController('comments', 'Post comments API')]
 class CommentService extends WebService {
     /**
-     * Adds a comment to a published post.
+     * Adds a comment to a published post and notifies the author.
      */
     #[PostMapping]
     #[ResponseBody]
@@ -33,7 +35,7 @@ class CommentService extends WebService {
     public function addComment(?int $postId = null, ?string $authorName = null, ?string $authorEmail = null, ?string $content = null): array {
         $db = new Database(App::getConfig()->getDBConnection('blog'));
         $postRepo = new PostRepository($db);
-        $post = $postRepo->findById($postId);
+        $post = $postRepo->findByIdWithDetails($postId);
 
         if ($post === null || $post->status !== 'published') {
             throw new NotFoundException('Post not found.');
@@ -50,6 +52,24 @@ class CommentService extends WebService {
         $commentRepo = new CommentRepository($db);
         $commentRepo->save($comment);
 
+        $this->sendNotification($post, $comment);
+
         return [$comment];
+    }
+
+    /**
+     * Sends a comment notification email to the blog admin.
+     */
+    private function sendNotification(object $post, Comment $comment): void {
+        $email = EmailHelper::create();
+        $email->setSubject('New comment on: ' . $post->title);
+        $email->addTo('admin@example.com', 'Blog Admin');
+
+        $email->insert('h2')->text('New Comment');
+        $email->insert('p')->text('Post: ' . $post->title);
+        $email->insert('p')->text('By: ' . $comment->authorName . ' (' . $comment->authorEmail . ')');
+        $email->insert('p')->text($comment->content);
+
+        $email->send();
     }
 }

@@ -1,0 +1,11 @@
+vendor/
+composer.lock
+.php-cs-fixer.cache
+App/Storage/Sessions/*
+App/Storage/Logs/*
+App/Storage/Queue/pending/*
+App/Storage/Queue/failed/*
+!App/Storage/Sessions/.gitkeep
+!App/Storage/Logs/.gitkeep
+!App/Storage/Queue/pending/.gitkeep
+!App/Storage/Queue/failed/.gitkeep

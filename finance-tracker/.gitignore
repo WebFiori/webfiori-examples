@@ -1,0 +1,15 @@
+# Backend
+/backend/vendor/
+/backend/composer.lock
+/backend/App/Storage/Sessions/*
+/backend/App/Storage/Logs/*
+/backend/App/Storage/Uploads/*
+/backend/App/Storage/class-loader.cache
+/backend/tests/.phpunit.cache/
+/backend/tests/.phpunit.result.cache
+/backend/.php-cs-fixer.cache
+
+# Frontend
+/frontend/*/node_modules/
+/frontend/*/dist/
+/frontend/*/.env.local

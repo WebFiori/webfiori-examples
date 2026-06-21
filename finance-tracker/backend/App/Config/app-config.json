@@ -1,0 +1,46 @@
+{
+    "base-url":"DYNAMIC",
+    "theme":null,
+    "home-page":"BASE_URL",
+    "primary-lang":"EN",
+    "titles":{
+        "EN":"Finance Tracker"
+    },
+    "name-separator":"|",
+    "scheduler-password":"NO_PASSWORD",
+    "app-names":{
+        "EN":"Personal Finance Tracker"
+    },
+    "app-descriptions":{
+        "EN":"A personal finance tracker API built with WebFiori Framework"
+    },
+    "version-info":{
+        "version":"1.0.0",
+        "version-type":"Stable",
+        "release-date":"2026-04-30"
+    },
+    "env-vars":{
+        "WF_VERBOSE":{
+            "value":true,
+            "description":"Configure the verbosity of error messages."
+        },
+        "CLI_HTTP_HOST":{
+            "value":"127.0.0.1",
+            "description":"Host name for CLI."
+        }
+    },
+    "smtp-connections":{
+    },
+    "database-connections":{
+        "finance":{
+            "type":"mysql",
+            "host":"127.0.0.1",
+            "port":3307,
+            "username":"root",
+            "database":"finance_test",
+            "password":"root",
+            "extras":{
+            }
+        }
+    }
+}

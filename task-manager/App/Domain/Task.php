@@ -9,13 +9,21 @@ namespace App\Domain;
  * serializer reads public properties directly when building API responses.
  */
 class Task {
+    /** Valid status values for a task. */
+    public const VALID_STATUSES = ['pending', 'in-progress', 'completed'];
+
+    /** Valid priority values for a task. */
+    public const VALID_PRIORITIES = ['low', 'medium', 'high'];
+
     /**
      * Creates a new Task instance.
      *
      * @param int|null    $id          Auto-generated primary key. Null for new tasks.
      * @param string      $title       Task title (required).
      * @param string      $description Optional longer description.
-     * @param string      $status      Either 'pending' or 'completed'.
+     * @param string      $status      One of: pending, in-progress, completed.
+     * @param string      $priority    One of: low, medium, high.
+     * @param string|null $dueDate     Optional due date (Y-m-d H:i:s format).
      * @param string|null $createdAt   Timestamp when the task was created.
      * @param string|null $updatedAt   Timestamp of the last update, null if never updated.
      */
@@ -24,6 +32,8 @@ class Task {
         public string $title = '',
         public string $description = '',
         public string $status = 'pending',
+        public string $priority = 'medium',
+        public ?string $dueDate = null,
         public ?string $createdAt = null,
         public ?string $updatedAt = null
     ) {}
@@ -39,8 +49,10 @@ class Task {
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
-            'created_at' => $this->createdAt,
-            'updated_at' => $this->updatedAt
+            'priority' => $this->priority,
+            'dueDate' => $this->dueDate,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt
         ];
     }
 }

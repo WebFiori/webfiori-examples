@@ -3,6 +3,7 @@ namespace App\Apis;
 
 use App\Domain\Post;
 use App\Infrastructure\Repository\PostRepository;
+use WebFiori\Cache\CacheFacade;
 use WebFiori\Database\Database;
 use WebFiori\Framework\App;
 use WebFiori\Framework\Session\SessionsManager;
@@ -24,9 +25,13 @@ use WebFiori\Http\WebService;
  *
  * GET endpoints are public (`#[AllowAnonymous]`). POST/PUT/DELETE require
  * an active session, enforced by `isAuthorized()`.
+ *
+ * Published post listings are cached for 120 seconds to reduce database load.
  */
 #[RestController('posts', 'Blog posts API')]
 class PostService extends WebService {
+    private const CACHE_TTL = 120;
+
     /**
      * Creates a new blog post. Requires authentication.
      */
@@ -52,6 +57,7 @@ class PostService extends WebService {
         );
 
         $repo->save($post);
+        $this->invalidateCache();
 
         return [$post];
     }
@@ -71,12 +77,15 @@ class PostService extends WebService {
         }
 
         $repo->deleteById($post->id);
+        $this->invalidateCache();
 
         return [$post];
     }
 
     /**
      * Lists published posts (paginated) or returns a single post by ID.
+     *
+     * Paginated listings are served from cache when available.
      */
     #[GetMapping]
     #[ResponseBody]
@@ -101,9 +110,15 @@ class PostService extends WebService {
         $page = $page ?? 1;
         $perPage = $perPage ?? 5;
 
-        $result = $repo->findPublished($page, $perPage, $categoryId);
+        $cacheKey = "posts:list:p{$page}:pp{$perPage}:c" . ($categoryId ?? 'all');
 
-        return $result['items'];
+        $items = CacheFacade::get($cacheKey, function () use ($repo, $page, $perPage, $categoryId) {
+            $result = $repo->findPublished($page, $perPage, $categoryId);
+
+            return $result['items'];
+        }, self::CACHE_TTL);
+
+        return $items;
     }
 
     /**
@@ -160,8 +175,16 @@ class PostService extends WebService {
 
         $post->updatedAt = date('Y-m-d H:i:s');
         $repo->save($post);
+        $this->invalidateCache();
 
         return [$post];
+    }
+
+    /**
+     * Invalidates the posts list cache after mutations.
+     */
+    private function invalidateCache(): void {
+        CacheFacade::flush();
     }
 
     private function getRepo(): PostRepository {

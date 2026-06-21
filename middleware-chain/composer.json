@@ -1,0 +1,19 @@
+{
+    "name": "webfiori/app",
+    "description": "Middleware dependency chain demonstration.",
+    "authors": [],
+    "type": "project",
+    "require": {
+        "php": ">=8.1",
+        "webfiori/framework": "v3.0.0-RC.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11"
+    },
+    "scripts": {
+        "test": [
+            "bash -c 'cd $(pwd) && rm -f App/Storage/Logs/app-*.log && php -S 127.0.0.1:8987 -t public > /dev/null 2>&1 & PID=$!; sleep 2; curl -s http://127.0.0.1:8987/test-chain > /dev/null; sleep 1; kill $PID 2>/dev/null'",
+            "phpunit --configuration tests/phpunit.xml"
+        ]
+    }
+}

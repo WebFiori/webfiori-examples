@@ -20,6 +20,8 @@ use WebFiori\Database\DataType;
 #[Column(name: 'title', type: DataType::VARCHAR, size: 256)]
 #[Column(name: 'description', type: DataType::VARCHAR, size: 2000, nullable: true)]
 #[Column(name: 'status', type: DataType::VARCHAR, size: 20, default: 'pending')]
+#[Column(name: 'priority', type: DataType::VARCHAR, size: 10, default: 'medium')]
+#[Column(name: 'due_date', type: DataType::DATETIME, nullable: true)]
 #[Column(name: 'created_at', type: DataType::DATETIME, default: 'now()')]
 #[Column(name: 'updated_at', type: DataType::DATETIME, nullable: true)]
 class TasksTable {
