@@ -7,6 +7,7 @@ use WebFiori\Http\Annotations\ResponseBody;
 use WebFiori\Http\Annotations\RestController;
 use WebFiori\Http\OpenAPI\OpenAPIGenerator;
 use WebFiori\Http\WebService;
+use WebFiori\Json\Json;
 
 /**
  * Serves the OpenAPI 3.1 specification for all registered services.
@@ -20,7 +21,7 @@ class OpenAPIService extends WebService {
     #[GetMapping]
     #[ResponseBody]
     #[AllowAnonymous]
-    public function getSpec(): array {
+    public function getSpec(): Json {
         $generator = new OpenAPIGenerator();
 
         $spec = $generator->generate(
@@ -30,9 +31,8 @@ class OpenAPIService extends WebService {
             '/apis'
         );
 
-        $info = $spec->getInfo();
-        $info->setTitle('WebFiori Blog Example API');
+        $spec->getInfo()->setTitle('WebFiori Blog Example API');
 
-        return json_decode($spec->toJSON() . '', true);
+        return $spec->toJSON();
     }
 }

@@ -16,6 +16,13 @@ use WebFiori\Http\WebService;
 #[RestController('users', 'User registration API')]
 class UserService extends WebService {
 
+    public function __construct() {
+        parent::__construct('users');
+
+        $this->addResponse('POST', '200', 'User registered successfully')
+             ->addResponse('POST', '422', 'Validation failed (e.g. passwords do not match)');
+    }
+
     /**
      * Register a new user with password confirmation validation.
      *

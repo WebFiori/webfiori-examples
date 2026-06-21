@@ -4,7 +4,7 @@ namespace App\Pages;
 use WebFiori\Framework\Ui\WebPage;
 
 /**
- * Swagger UI page that loads the OpenAPI spec from /apis/openapi.
+ * Swagger UI page that loads the OpenAPI spec from /docs/openapi.json.
  */
 class SwaggerPage extends WebPage {
 
@@ -23,11 +23,7 @@ class SwaggerPage extends WebPage {
         $script->text(
             "SwaggerUIBundle({" .
             "url: '/apis/openapi'," .
-            "dom_id: '#swagger-ui'," .
-            "responseInterceptor: function(response) {" .
-            "if (response.body && response.body.data) { response.body = response.body.data; }" .
-            "return response;" .
-            "}" .
+            "dom_id: '#swagger-ui'" .
             "});",
             false
         );

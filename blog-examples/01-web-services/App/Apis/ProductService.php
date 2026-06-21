@@ -25,6 +25,19 @@ use WebFiori\Http\WebService;
  */
 #[RestController('products', 'Product management API')]
 class ProductService extends WebService {
+
+    public function __construct() {
+        parent::__construct('products');
+
+        $this->addResponse('GET', '200', 'List of products or a single product by ID')
+             ->addResponse('GET', '404', 'Product not found')
+             ->addResponse('POST', '200', 'Product created successfully')
+             ->addResponse('PUT', '200', 'Product updated successfully')
+             ->addResponse('PUT', '404', 'Product not found')
+             ->addResponse('DELETE', '200', 'Product deleted successfully')
+             ->addResponse('DELETE', '404', 'Product not found');
+    }
+
     /**
      * In-memory store for demonstration purposes.
      * In a real app, this would be a repository.
