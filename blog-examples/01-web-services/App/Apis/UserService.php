@@ -2,6 +2,7 @@
 namespace App\Apis;
 
 use WebFiori\Http\Annotations\AllowAnonymous;
+use WebFiori\Http\Annotations\ApiResponse;
 use WebFiori\Http\Annotations\PostMapping;
 use WebFiori\Http\Annotations\RequestParam;
 use WebFiori\Http\Annotations\ResponseBody;
@@ -16,20 +17,6 @@ use WebFiori\Http\WebService;
 #[RestController('users', 'User registration API')]
 class UserService extends WebService {
 
-    public function __construct() {
-        parent::__construct('users');
-
-        $this->addResponse('POST', '200', 'User registered successfully')
-             ->addResponse('POST', '422', 'Validation failed (e.g. passwords do not match)');
-    }
-
-    /**
-     * Register a new user with password confirmation validation.
-     *
-     * Demonstrates #[Validate] — the framework calls the validation method
-     * after parameter filtering. If it returns a non-empty array, the
-     * framework responds with 422 and the error messages.
-     */
     #[PostMapping]
     #[ResponseBody]
     #[AllowAnonymous]
@@ -38,23 +25,18 @@ class UserService extends WebService {
     #[RequestParam(name: 'password', type: ParamType::STRING, description: 'Password (min 8 chars)')]
     #[RequestParam(name: 'password_confirm', type: ParamType::STRING, description: 'Password confirmation')]
     #[Validate('validateRegistration')]
-    public function register(): array {
+    #[ApiResponse(status: '200', description: 'User registered successfully')]
+    #[ApiResponse(status: '422', description: 'Validation failed')]
+    public function register(string $name, string $email, string $pass = '', string $passConf = ''): array {
         return [
             'message' => 'User registered',
             'user' => [
-                'name' => $this->getParamVal('name'),
-                'email' => $this->getParamVal('email'),
+                'name' => $name,
+                'email' => $email,
             ]
         ];
     }
 
-    /**
-     * Cross-field validation for registration.
-     *
-     * @param array $inputs Filtered input values.
-     *
-     * @return array Associative array of field => error message. Empty = valid.
-     */
     private function validateRegistration(array $inputs): array {
         $errors = [];
 
