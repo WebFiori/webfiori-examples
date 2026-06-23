@@ -1,6 +1,6 @@
-# Blog Post #1: Building REST APIs with WebFiori v3
+# Blog Post #1: Building REST APIs with WebFiori
 
-This example accompanies the blog post on building REST APIs using WebFiori v3's annotation-based web services.
+This example accompanies the blog post on building REST APIs using WebFiori's annotation-based web services.
 
 ## What This Demonstrates
 
