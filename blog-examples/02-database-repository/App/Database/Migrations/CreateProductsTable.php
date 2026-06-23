@@ -9,9 +9,7 @@ use WebFiori\Database\Schema\AbstractMigration;
 class CreateProductsTable extends AbstractMigration {
 
     public function up(Database $db): void {
-        $dbType = $db->getConnectionInfo()->getDatabaseType();
-        $table = AttributeTableBuilder::build(ProductsTable::class, $dbType);
-        $db->addTable($table);
+        $db->addTableFromClass(ProductsTable::class);
         $db->table('products')->createTable()->execute();
     }
 

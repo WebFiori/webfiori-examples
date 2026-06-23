@@ -1,10 +1,15 @@
 <?php
 namespace App\Database\Seeders;
 
+use App\Database\Migrations\CreateProductsTable;
 use WebFiori\Database\Database;
 use WebFiori\Database\Schema\AbstractSeeder;
 
 class SeedProducts extends AbstractSeeder {
+
+    public function getDependencies(): array {
+        return [CreateProductsTable::class];
+    }
 
     public function run(Database $db): void {
         $products = [
