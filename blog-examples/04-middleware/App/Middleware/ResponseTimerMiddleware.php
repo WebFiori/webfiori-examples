@@ -15,7 +15,6 @@ class ResponseTimerMiddleware extends AbstractMiddleware {
 
     public function __construct() {
         parent::__construct('response-timer');
-        $this->setPriority(500);
     }
 
     public function getDependencies(): array {

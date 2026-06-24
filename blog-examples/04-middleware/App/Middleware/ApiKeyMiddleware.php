@@ -15,7 +15,6 @@ class ApiKeyMiddleware extends AbstractMiddleware {
 
     public function __construct(string $apiKey = 'secret-key-123') {
         parent::__construct('api-key');
-        $this->setPriority(1000);
         $this->validKey = $apiKey;
     }
 
