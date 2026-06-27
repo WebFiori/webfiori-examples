@@ -1,0 +1,34 @@
+{
+    "base-url": "DYNAMIC",
+    "theme": null,
+    "home-page": "BASE_URL",
+    "primary-lang": "EN",
+    "titles": {
+        "EN": "File Upload API"
+    },
+    "name-separator": "|",
+    "scheduler-password": "NO_PASSWORD",
+    "app-names": {
+        "EN": "File Upload API"
+    },
+    "app-descriptions": {
+        "EN": "Blog example: File Uploads — Streaming, Resumable, and Memory-Safe"
+    },
+    "version-info": {
+        "version": "1.0.0",
+        "version-type": "Stable",
+        "release-date": "2026-06-27"
+    },
+    "env-vars": {
+        "WF_VERBOSE": {
+            "value": true,
+            "description": "Configure the verbosity of error messages at run-time."
+        },
+        "CLI_HTTP_HOST": {
+            "value": "127.0.0.1",
+            "description": "Host name that will be used when running the application as command line utility."
+        }
+    },
+    "smtp-connections": {},
+    "database-connections": {}
+}
