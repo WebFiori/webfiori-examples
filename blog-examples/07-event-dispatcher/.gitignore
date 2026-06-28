@@ -1,0 +1,8 @@
+/vendor/
+App/Storage/Logs/*.log
+App/Storage/class-loader.cache
+App/Storage/Queue/pending/*.json
+App/Storage/Queue/processing/*.json
+App/Storage/Queue/completed/*.json
+App/Storage/Queue/failed/*.json
+tests/.phpunit.cache/

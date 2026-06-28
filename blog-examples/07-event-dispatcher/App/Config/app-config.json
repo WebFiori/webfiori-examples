@@ -1,0 +1,18 @@
+{
+    "base-url": "DYNAMIC",
+    "theme": null,
+    "home-page": "BASE_URL",
+    "primary-lang": "EN",
+    "titles": { "EN": "Event Dispatcher Demo" },
+    "name-separator": "|",
+    "scheduler-password": "NO_PASSWORD",
+    "app-names": { "EN": "Event Dispatcher Demo" },
+    "app-descriptions": { "EN": "Blog example: Event-Driven Architecture" },
+    "version-info": { "version": "1.0.0", "version-type": "Stable", "release-date": "2026-08-04" },
+    "env-vars": {
+        "WF_VERBOSE": { "value": true, "description": "Verbose errors." },
+        "CLI_HTTP_HOST": { "value": "127.0.0.1", "description": "CLI host." }
+    },
+    "smtp-connections": {},
+    "database-connections": {}
+}
