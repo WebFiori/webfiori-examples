@@ -70,6 +70,43 @@ class ConfigurationTest extends TestCase {
         $this->assertEquals(100, API_RATE_LIMIT);
     }
 
+    public function testEnvPrefixResolvesSystemVariable() {
+        // SECRET_KEY is configured as "env:APP_SECRET_KEY"
+        // If APP_SECRET_KEY is set in the environment, it resolves to that value.
+        // If not set, it falls back to the raw string.
+        $this->assertTrue(defined('SECRET_KEY'));
+
+        $envValue = getenv('APP_SECRET_KEY');
+
+        if ($envValue !== false) {
+            // System env var is set — constant should have its value
+            $this->assertEquals($envValue, SECRET_KEY);
+        } else {
+            // Not set — falls back to raw "env:APP_SECRET_KEY"
+            $this->assertEquals('env:APP_SECRET_KEY', SECRET_KEY);
+        }
+    }
+
+    public function testEnvPrefixResolvesWhenSet() {
+        // Simulate: set a system env var and verify resolution works
+        // Note: since constants are defined at boot, we test the resolver directly
+        $resolved = \WebFiori\Framework\Config\Controller::resolveEnvValue('env:PATH');
+        // PATH should always be set on any system
+        $this->assertNotEquals('env:PATH', $resolved);
+        $this->assertEquals(getenv('PATH'), $resolved);
+    }
+
+    public function testEnvPrefixFallbackWhenNotSet() {
+        $resolved = \WebFiori\Framework\Config\Controller::resolveEnvValue('env:DEFINITELY_NOT_SET_XYZ_123');
+        // Falls back to the raw string when env var doesn't exist
+        $this->assertEquals('env:DEFINITELY_NOT_SET_XYZ_123', $resolved);
+    }
+
+    public function testNonEnvValuePassesThrough() {
+        $resolved = \WebFiori\Framework\Config\Controller::resolveEnvValue('plain-value');
+        $this->assertEquals('plain-value', $resolved);
+    }
+
     // ========== Database Connection ==========
 
     public function testDbConnectionExists() {

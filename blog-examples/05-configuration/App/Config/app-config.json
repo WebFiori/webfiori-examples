@@ -39,6 +39,10 @@
         "API_RATE_LIMIT": {
             "value": 100,
             "description": "Maximum API requests per minute per client."
+        },
+        "SECRET_KEY": {
+            "value": "env:APP_SECRET_KEY",
+            "description": "Application secret resolved from system environment."
         }
     },
     "smtp-connections": {},
