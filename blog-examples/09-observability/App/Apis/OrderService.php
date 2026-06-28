@@ -1,0 +1,46 @@
+<?php
+namespace App\Apis;
+
+use WebFiori\Http\Annotations\AllowAnonymous;
+use WebFiori\Http\Annotations\PostMapping;
+use WebFiori\Http\Annotations\ResponseBody;
+use WebFiori\Http\Annotations\RestController;
+use WebFiori\Http\ParamType;
+use WebFiori\Http\RequestParameter;
+use WebFiori\Http\WebService;
+use WebFiori\Log\LoggerFacade;
+
+/**
+ * A simple order API that demonstrates logging in action.
+ */
+#[RestController('orders', 'Order API with logging')]
+class OrderService extends WebService {
+    public function __construct() {
+        parent::__construct('orders');
+        $this->addRequestMethod('POST');
+        $this->addParameter(new RequestParameter('product', ParamType::STRING));
+        $this->addParameter(new RequestParameter('quantity', ParamType::INT));
+    }
+
+    #[PostMapping]
+    #[ResponseBody]
+    #[AllowAnonymous]
+    public function createOrder(): array {
+        $product = $this->getParamVal('product');
+        $quantity = $this->getParamVal('quantity');
+        $orderId = random_int(1000, 9999);
+
+        LoggerFacade::info('Order created', [
+            'order_id' => $orderId,
+            'product' => $product,
+            'quantity' => $quantity,
+        ]);
+
+        return [
+            'order_id' => $orderId,
+            'product' => $product,
+            'quantity' => $quantity,
+            'status' => 'created',
+        ];
+    }
+}
