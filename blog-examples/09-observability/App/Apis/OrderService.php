@@ -3,10 +3,10 @@ namespace App\Apis;
 
 use WebFiori\Http\Annotations\AllowAnonymous;
 use WebFiori\Http\Annotations\PostMapping;
+use WebFiori\Http\Annotations\RequestParam;
 use WebFiori\Http\Annotations\ResponseBody;
 use WebFiori\Http\Annotations\RestController;
 use WebFiori\Http\ParamType;
-use WebFiori\Http\RequestParameter;
 use WebFiori\Http\WebService;
 use WebFiori\Log\LoggerFacade;
 
@@ -15,19 +15,13 @@ use WebFiori\Log\LoggerFacade;
  */
 #[RestController('orders', 'Order API with logging')]
 class OrderService extends WebService {
-    public function __construct() {
-        parent::__construct('orders');
-        $this->addRequestMethod('POST');
-        $this->addParameter(new RequestParameter('product', ParamType::STRING));
-        $this->addParameter(new RequestParameter('quantity', ParamType::INT));
-    }
 
     #[PostMapping]
     #[ResponseBody]
     #[AllowAnonymous]
-    public function createOrder(): array {
-        $product = $this->getParamVal('product');
-        $quantity = $this->getParamVal('quantity');
+    #[RequestParam(name: 'product', type: ParamType::STRING)]
+    #[RequestParam(name: 'quantity', type: ParamType::INT)]
+    public function createOrder(string $product, int $quantity): array {
         $orderId = random_int(1000, 9999);
 
         LoggerFacade::info('Order created', [
