@@ -23,15 +23,17 @@ php -S localhost:8080 -t public
 
 ### Health Check
 
+The framework auto-registers a `/health` endpoint. Just register your checks.
+
 ```bash
 # All checks pass (simulate by creating marker files)
 touch App/Storage/.db-available
 touch App/Storage/.payment-available
-curl http://localhost:8080/apis/health
+curl http://localhost:8080/health
 
 # Simulate database failure
 rm App/Storage/.db-available
-curl -w "\nHTTP Status: %{http_code}\n" http://localhost:8080/apis/health
+curl -w "\nHTTP Status: %{http_code}\n" http://localhost:8080/health
 ```
 
 ### Create Order (demonstrates logging)
