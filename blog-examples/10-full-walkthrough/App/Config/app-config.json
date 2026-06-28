@@ -1,0 +1,47 @@
+{
+    "base-url":"DYNAMIC",
+    "theme":null,
+    "home-page":"BASE_URL",
+    "primary-lang":"EN",
+    "titles":{
+        "AR":"نظام الطلبات",
+        "EN":"Order System"
+    },
+    "name-separator":"|",
+    "scheduler-password":"NO_PASSWORD",
+    "app-names":{
+        "AR":"نظام معالجة الطلبات",
+        "EN":"Order Processing System"
+    },
+    "app-descriptions":{
+        "AR":"نظام لمعالجة الطلبات والمدفوعات",
+        "EN":"An order processing system demonstrating enterprise framework features"
+    },
+    "version-info":{
+        "version":"1.0.0",
+        "version-type":"Stable",
+        "release-date":"2026-05-31"
+    },
+    "env-vars":{
+        "WF_VERBOSE":{
+            "value":true,
+            "description":"Configure the verbosity of error messages at run-time."
+        },
+        "CLI_HTTP_HOST":{
+            "value":"127.0.0.1",
+            "description":"Host name that will be used when running the application as command line utility."
+        },
+        "SESSION_KEY":{
+            "value":"env:SESSION_ENCRYPTION_KEY",
+            "description":"AES-256-GCM key for session encryption at rest."
+        },
+        "PAYMENT_GATEWAY_KEY":{
+            "value":"env:PAYMENT_GATEWAY_KEY",
+            "description":"API key for the payment gateway."
+        }
+    },
+    "smtp-connections":{
+    },
+    "database-connections":{
+    }
+}
