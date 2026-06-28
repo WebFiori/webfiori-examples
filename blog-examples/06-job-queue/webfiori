@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+namespace WebFiori;
+
+require __DIR__ . '/vendor/autoload.php';
+
+use WebFiori\Framework\App;
+
+App::initiate('App', 'public', __DIR__ . '/public');
+App::start();
+App::runAsCLI();
