@@ -46,7 +46,7 @@ class UserRepository extends AbstractRepository {
             id: (int) $row['id'],
             name: $row['name'],
             email: $row['email'],
-            passwordHash: $row['password-hash'],
+            passwordHash: $row['password_hash'] ?? '',
             role: $row['role'] ?? 'customer',
             active: (bool) ($row['active'] ?? true)
         );

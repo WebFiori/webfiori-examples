@@ -62,7 +62,7 @@ class ProductRepository extends AbstractRepository {
             description: $row['description'] ?? '',
             price: (float) $row['price'],
             stock: (int) $row['stock'],
-            createdAt: $row['created-at'] ?? null
+            createdAt: $row['created_at'] ?? null
         );
     }
 }

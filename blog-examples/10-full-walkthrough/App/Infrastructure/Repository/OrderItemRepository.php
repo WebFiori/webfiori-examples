@@ -42,10 +42,10 @@ class OrderItemRepository extends AbstractRepository {
     protected function toEntity(array $row): OrderItem {
         return new OrderItem(
             id: (int) $row['id'],
-            orderId: (int) $row['order-id'],
-            productId: (int) $row['product-id'],
+            orderId: (int) $row['order_id'],
+            productId: (int) $row['product_id'],
             quantity: (int) $row['quantity'],
-            unitPrice: (float) $row['unit-price']
+            unitPrice: (float) $row['unit_price']
         );
     }
 }

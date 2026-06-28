@@ -43,5 +43,13 @@
     "smtp-connections":{
     },
     "database-connections":{
+        "orders": {
+            "type": "sqlite",
+            "host": "",
+            "port": 0,
+            "username": "",
+            "password": "",
+            "database": "orders.db"
+        }
     }
 }

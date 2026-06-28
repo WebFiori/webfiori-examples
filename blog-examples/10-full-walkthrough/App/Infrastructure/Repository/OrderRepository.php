@@ -54,22 +54,22 @@ class OrderRepository extends AbstractRepository {
     protected function toEntity(array $row): Order {
         return new Order(
             id: (int) $row['id'],
-            userId: (int) $row['user-id'],
+            userId: (int) $row['user_id'],
             status: $row['status'],
             total: (float) $row['total'],
-            createdAt: $row['created-at'] ?? null,
-            updatedAt: $row['updated-at'] ?? null
+            createdAt: $row['created_at'] ?? null,
+            updatedAt: $row['updated_at'] ?? null
         );
     }
 
     private function toEntityFromRaw(array $row): Order {
         return new Order(
             id: (int) $row['id'],
-            userId: (int) $row['user-id'],
+            userId: (int) $row['user_id'],
             status: $row['status'],
             total: (float) $row['total'],
-            createdAt: $row['created-at'] ?? null,
-            updatedAt: $row['updated-at'] ?? null
+            createdAt: $row['created_at'] ?? null,
+            updatedAt: $row['updated_at'] ?? null
         );
     }
 }
