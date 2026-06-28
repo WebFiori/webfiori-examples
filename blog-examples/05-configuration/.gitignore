@@ -1,0 +1,5 @@
+/vendor/
+App/Storage/Logs/*.log
+App/Storage/class-loader.cache
+tests/.phpunit.cache/
+*.db
