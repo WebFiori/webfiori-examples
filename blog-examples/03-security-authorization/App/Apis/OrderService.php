@@ -35,7 +35,7 @@ class OrderService extends WebService {
 
     #[GetMapping]
     #[ResponseBody]
-    #[PreAuthorize("hasAuthority('orders_view')")]
+    #[PreAuthorize("hasAuthority('orders.view')")]
     public function listOrders(): array {
         $user = SecurityContext::getCurrentUser();
 
@@ -49,7 +49,7 @@ class OrderService extends WebService {
 
     #[PostMapping]
     #[ResponseBody]
-    #[PreAuthorize("hasAuthority('orders_create')")]
+    #[PreAuthorize("hasAuthority('orders.create')")]
     #[RequestParam(name: 'total', type: ParamType::DOUBLE, description: 'Order total')]
     public function createOrder(): array {
         $user = SecurityContext::getCurrentUser();
@@ -61,7 +61,7 @@ class OrderService extends WebService {
 
     #[DeleteMapping]
     #[ResponseBody]
-    #[PreAuthorize("hasAuthority('orders_cancel')")]
+    #[PreAuthorize("hasAuthority('orders.cancel')")]
     #[RequestParam(name: 'id', type: ParamType::INT, description: 'Order ID')]
     public function cancelOrder(): array {
         $id = $this->getParamVal('id');
@@ -73,7 +73,7 @@ class OrderService extends WebService {
 
         $user = SecurityContext::getCurrentUser();
 
-        if (!Access::can($user, 'orders_cancel', $order)) {
+        if (!Access::can($user, 'orders.cancel', $order)) {
             throw new ForbiddenException('You cannot cancel this order.');
         }
 

@@ -24,7 +24,7 @@ class MiddlewareTest extends TestCase {
 
     public function testResponseTimerDependencies(): void {
         $mw = new ResponseTimerMiddleware();
-        $this->assertEquals(['api-key'], $mw->getDependencies());
+        $this->assertEquals([ApiKeyMiddleware::class], $mw->getDependencies());
     }
 
     public function testTransitiveDependencyChain(): void {

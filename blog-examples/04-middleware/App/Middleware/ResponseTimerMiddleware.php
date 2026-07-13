@@ -6,8 +6,8 @@ use WebFiori\Http\Request;
 use WebFiori\Http\Response;
 
 /**
- * Adds response timing header. Depends on api-key (which depends on audit-log).
- * Demonstrates transitive dependency resolution.
+ * Adds response timing header. Depends on ApiKeyMiddleware (which depends on audit-log).
+ * Demonstrates transitive dependency resolution and ::class syntax.
  */
 class ResponseTimerMiddleware extends AbstractMiddleware {
 
@@ -18,7 +18,7 @@ class ResponseTimerMiddleware extends AbstractMiddleware {
     }
 
     public function getDependencies(): array {
-        return ['api-key']; // api-key depends on audit-log, so full chain: audit-log → api-key → response-timer
+        return [ApiKeyMiddleware::class]; // resolves by class — full chain: audit-log → api-key → response-timer
     }
 
     public function before(Request $request, Response $response) {

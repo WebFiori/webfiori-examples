@@ -16,8 +16,8 @@ class User implements SecurityPrincipal {
 
     public function getAuthorities(): array {
         return match ($this->role) {
-            'admin' => ['orders_create', 'orders_view', 'orders_cancel', 'orders_manage'],
-            'customer' => ['orders_create', 'orders_view', 'orders_cancel'],
+            'admin' => ['orders.create', 'orders.view', 'orders.cancel', 'orders.manage'],
+            'customer' => ['orders.create', 'orders.view', 'orders.cancel'],
             default => []
         };
     }

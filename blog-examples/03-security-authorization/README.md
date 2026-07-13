@@ -14,7 +14,7 @@ Demonstrates WebFiori's layered security system: SecurityPrincipal, SecurityCont
 ## Important: Permission ID Format
 
 Permission IDs only accept `[A-Za-z0-9_]`. Use underscores, not dots:
-- ✅ `orders_create`
+- ✅ `orders.create`
 - ❌ `orders.create` (silently falls back to default ID)
 
 ## Run Tests

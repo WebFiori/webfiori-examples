@@ -20,7 +20,7 @@ class SecurityTest extends TestCase {
 
         $this->assertTrue(SecurityContext::isAuthenticated());
         $this->assertTrue(SecurityContext::hasRole('admin'));
-        $this->assertTrue(SecurityContext::hasAuthority('orders_manage'));
+        $this->assertTrue(SecurityContext::hasAuthority('orders.manage'));
         $this->assertFalse(SecurityContext::hasRole('customer'));
     }
 
@@ -37,7 +37,7 @@ class SecurityTest extends TestCase {
         $this->assertTrue(SecurityContext::evaluateExpression("hasRole('admin')"));
         $this->assertFalse(SecurityContext::evaluateExpression("hasRole('customer')"));
         $this->assertTrue(SecurityContext::evaluateExpression("isAuthenticated()"));
-        $this->assertTrue(SecurityContext::evaluateExpression("hasAuthority('orders_manage')"));
+        $this->assertTrue(SecurityContext::evaluateExpression("hasAuthority('orders.manage')"));
         $this->assertTrue(SecurityContext::evaluateExpression("hasRole('admin') || hasRole('customer')"));
         $this->assertFalse(SecurityContext::evaluateExpression("hasRole('admin') && hasRole('customer')"));
     }
@@ -46,9 +46,9 @@ class SecurityTest extends TestCase {
         $admin = new User(1, 'Alice', 'admin');
         $customer = new User(2, 'Bob', 'customer');
 
-        $this->assertTrue(Access::can($admin, 'orders_manage'));
-        $this->assertFalse(Access::can($customer, 'orders_manage'));
-        $this->assertTrue(Access::can($customer, 'orders_create'));
+        $this->assertTrue(Access::can($admin, 'orders.manage'));
+        $this->assertFalse(Access::can($customer, 'orders.manage'));
+        $this->assertTrue(Access::can($customer, 'orders.create'));
     }
 
     public function testAbacPolicyCustomerOwnsOrder(): void {
@@ -58,8 +58,8 @@ class SecurityTest extends TestCase {
         $ownOrder = new Order(1, 2, 50.00, 'pending');
         $otherOrder = new Order(2, 99, 50.00, 'pending');
 
-        $this->assertTrue(Access::can($customer, 'orders_cancel', $ownOrder));
-        $this->assertFalse(Access::can($customer, 'orders_cancel', $otherOrder));
+        $this->assertTrue(Access::can($customer, 'orders.cancel', $ownOrder));
+        $this->assertFalse(Access::can($customer, 'orders.cancel', $otherOrder));
     }
 
     public function testAbacPolicyAdminCancelAny(): void {
@@ -67,7 +67,7 @@ class SecurityTest extends TestCase {
         Access::assignRoleToUser(1, 'admin');
 
         $order = new Order(1, 99, 100.00, 'pending');
-        $this->assertTrue(Access::can($admin, 'orders_cancel', $order));
+        $this->assertTrue(Access::can($admin, 'orders.cancel', $order));
     }
 
     public function testAbacPolicyCannotCancelShippedOrder(): void {
@@ -75,6 +75,6 @@ class SecurityTest extends TestCase {
         Access::assignRoleToUser(1, 'admin');
 
         $shippedOrder = new Order(1, 1, 100.00, 'shipped');
-        $this->assertFalse(Access::can($admin, 'orders_cancel', $shippedOrder));
+        $this->assertFalse(Access::can($admin, 'orders.cancel', $shippedOrder));
     }
 }

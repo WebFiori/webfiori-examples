@@ -8,7 +8,7 @@ use App\Domain\Order;
  */
 class OrderCancelPolicy {
     public function getPermission(): string {
-        return 'orders_cancel';
+        return 'orders.cancel';
     }
 
     public function evaluate($user, ?object $resource = null): bool {
