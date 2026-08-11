@@ -24,11 +24,11 @@ class OrderServiceTest extends TestCase {
 
     public function testProcessPayment(): void {
         $service = ContainerFacade::make(OrderService::class);
-        $result = $service->processPayment(99.99, 'ORD-001');
+        $result = $service->processPayment(1, 99.99);
 
         $this->assertArrayHasKey('transaction_id', $result);
         $this->assertStringStartsWith('mock_txn_', $result['transaction_id']);
-        $this->assertEquals('Order ORD-001 processed successfully', $result['message']);
+        $this->assertEquals('Order 1 processed successfully', $result['message']);
     }
 
     public function testMockGatewayRecordsCharges(): void {
@@ -36,8 +36,8 @@ class OrderServiceTest extends TestCase {
         ContainerFacade::instance(PaymentGatewayInterface::class, $gateway);
 
         $service = ContainerFacade::make(OrderService::class);
-        $service->processPayment(50.00, 'ORD-002');
-        $service->processPayment(75.00, 'ORD-003');
+        $service->processPayment(2, 50.00);
+        $service->processPayment(3, 75.00);
 
         $this->assertCount(2, $gateway->getCharges());
         $this->assertEquals(50.00, $gateway->getCharges()[0]['amount']);
@@ -49,10 +49,10 @@ class OrderServiceTest extends TestCase {
         ContainerFacade::instance(NotifierInterface::class, $notifier);
 
         $service = ContainerFacade::make(OrderService::class);
-        $service->processPayment(25.00, 'ORD-004');
+        $service->processPayment(4, 25.00);
 
         $this->assertCount(1, $notifier->getMessages());
-        $this->assertStringContainsString('ORD-004', $notifier->getMessages()[0]);
+        $this->assertStringContainsString('4', $notifier->getMessages()[0]);
     }
 
     public function testSingletonReturnsSameInstance(): void {

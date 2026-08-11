@@ -16,7 +16,7 @@ class OrderService {
      *
      * @return array{transaction_id: string, message: string}
      */
-    public function processPayment(float $amount, string $orderId): array {
+    public function processPayment(int $orderId, float $amount): array {
         $transactionId = $this->gateway->charge($amount);
         $this->notifier->send("Order $orderId paid. Transaction: $transactionId");
 
