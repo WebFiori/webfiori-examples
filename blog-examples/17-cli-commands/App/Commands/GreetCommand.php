@@ -30,7 +30,7 @@ class GreetCommand extends Command {
 
     public function exec(): int {
         $name  = $this->getArgValue('--name');
-        $title = $this->getArgValue('--title') ?? 'Friend';
+        $title = $this->getArgValue('--title') ?? 'Friend'; // fallback until next release
 
         $this->println("Hello, %s %s!", $title, $name);
 
