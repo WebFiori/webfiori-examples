@@ -1,0 +1,34 @@
+{
+    "base-url": "DYNAMIC",
+    "theme": null,
+    "home-page": "BASE_URL",
+    "primary-lang": "EN",
+    "titles": {
+        "EN": "Observability Demo"
+    },
+    "name-separator": "|",
+    "scheduler-password": "NO_PASSWORD",
+    "app-names": {
+        "EN": "Observability Demo"
+    },
+    "app-descriptions": {
+        "EN": "Blog example: Production Observability — Health Checks and Structured Logging"
+    },
+    "version-info": {
+        "version": "1.0.0",
+        "version-type": "Stable",
+        "release-date": "2026-08-18"
+    },
+    "env-vars": {
+        "WF_VERBOSE": {
+            "value": true,
+            "description": "Configure the verbosity of error messages at run-time."
+        },
+        "CLI_HTTP_HOST": {
+            "value": "127.0.0.1",
+            "description": "Host name that will be used when running the application as command line utility."
+        }
+    },
+    "smtp-connections": {},
+    "database-connections": {}
+}
