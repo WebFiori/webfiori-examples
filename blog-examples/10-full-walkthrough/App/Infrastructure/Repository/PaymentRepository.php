@@ -43,11 +43,11 @@ class PaymentRepository extends AbstractRepository {
     protected function toEntity(array $row): Payment {
         return new Payment(
             id: (int) $row['id'],
-            orderId: (int) $row['order-id'],
+            orderId: (int) $row['order_id'],
             amount: (float) $row['amount'],
             status: $row['status'],
-            transactionId: $row['transaction-id'] ?? null,
-            createdAt: $row['created-at'] ?? null
+            transactionId: $row['transaction_id'] ?? null,
+            createdAt: $row['created_at'] ?? null
         );
     }
 }

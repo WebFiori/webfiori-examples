@@ -46,7 +46,7 @@
         "orders": {
             "type": "sqlite",
             "host": "",
-            "port": 0,
+            "port": 3306,
             "username": "",
             "password": "",
             "database": "orders.db"

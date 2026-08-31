@@ -6,3 +6,8 @@ App/Storage/Queue/processing/*.json
 App/Storage/Queue/completed/*.json
 App/Storage/Queue/failed/*.json
 tests/.phpunit.cache/
+
+# SQLite database (created at runtime / tests)
+orders.db
+orders.db-shm
+orders.db-wal
