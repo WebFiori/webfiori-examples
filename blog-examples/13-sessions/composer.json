@@ -20,6 +20,6 @@
         }
     },
     "scripts": {
-        "test": "phpunit --configuration tests/phpunit.xml"
+        "test": "phpunit"
     }
 }
